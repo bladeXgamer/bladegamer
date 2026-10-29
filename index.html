@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BladeGamer | Official Site</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #5c798e;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-title h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+        }
+
+        .header-title p {
+            color: #ddd;
+            font-size: 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 30px;
+        }
+
+        .game-card {
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            text-align: right;
+        }
+
+        .game-card h2 {
+            font-size: 1.5rem;
+            color: #ffeb3b;
+            margin-bottom: 8px;
+        }
+
+        .game-card p {
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.88rem;
+        }
+
+        /* زر الإعجاب الديناميكي */
+        .like-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .like-btn.liked {
+            background: #27ae60; /* يتحول للأخضر إذا قام بالإعجاب */
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #ff9800;
+            color: #111;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .btn:hover { background-color: #e68a00; }
+        .btn-coming { background-color: #7f8c8d; color: #ecf0f1; cursor: not-allowed; }
+
+        #sa-details {
+            display: none;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .versions-bar {
+            display: flex;
+            gap: 6px;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .ver-btn {
+            flex: 1;
+            background-color: #2980b9;
+            color: #fff;
+            padding: 10px 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .ver-btn:hover { background-color: #1f618d; }
+
+        .apk-box {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #ff9800;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .apk-box span {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        .download-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .download-box span {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .dl-link {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .dl-link:hover { background-color: #43a047; }
+
+        .note-box {
+            background: rgba(231, 76, 60, 0.2);
+            border-right: 4px solid #e74c3c;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 0.88rem;
+            color: #ffcdd2;
+            line-height: 1.5;
+        }
+
+        .instructions-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: right;
+            border-right: 4px solid #00bcd4;
+        }
+
+        .instructions-box h3 {
+            color: #00bcd4;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .instructions-box ol {
+            padding-right: 20px;
+            font-size: 0.88rem;
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .instructions-box li { margin-bottom: 5px; }
+
+        .zarchiver-link {
+            color: #00e676;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .comments-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .comments-section h3 {
+            color: #ffeb3b;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .comment-input, .comment-textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            padding: 10px;
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .comment-btn {
+            background-color: #2196f3;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .comments-list {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .comment-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 10px;
+            border-right: 3px solid #ff9800;
+        }
+
+        .comment-author {
+            font-size: 0.85rem;
+            color: #ffeb3b;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .comment-text {
+            font-size: 0.88rem;
+            color: #eee;
+        }
+
+        .footer-url {
+            margin-top: 10px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-title">
+        <h1>BLADEGAMER</h1>
+        <p>الموقع الرسمي لتعديلات ألعاب GTA Lite | BladePS</p>
+    </div>
+
+    <div class="container">
+
+        <!-- 1. لعبة GTA SA -->
+        <div class="game-card">
+            <h2>GTA SA BLADEGAMER</h2>
+            <p>نسخة لايت مطورة بالكامل، تشمل السكربتات، قائمة الغش، وملفات المعالجات المختلفة.</p>
+            
+            <!-- شريط الإعجابات التفاعلي (إعجاب وإزالة إعجاب) -->
+            <div class="stats-bar">
+                <span>🔥 نسخة مستقرة وخفيفة للأجهزة الضعيفة</span>
+                <button id="like-btn-element" class="like-btn" onclick="toggleLike()">
+                    ❤️ إعجاب (<span id="likes-count">0</span>)
+                </button>
+            </div>
+
+            <button class="btn" onclick="toggleSADetails()">استعراض النسخ والملفات 🚀</button>
+
+            <div id="sa-details">
+                <p style="font-size:0.85rem; color:#ffeb3b; margin-bottom:8px;">1. اختر إصدار نظام الأندرويد لجهازك:</p>
+                <div class="versions-bar">
+                    <button class="ver-btn" onclick="selectVersion('Android 4.5.6', 'APK CLEO 1.08', 'YOUR_APK_108_LINK', 'cleo')">Android 4.5.6</button>
+                    <button class="ver-btn" onclick="selectVersion('Android 7-12', 'APK CLEO 2.00', 'YOUR_APK_200_LINK', 'cleo')">Android 7-12</button>
+                    <button class="ver-btn" onclick="selectVersion('Android 13+', 'APK 2.00 AML Unprotected (غير محمي)', 'YOUR_APK_AML_LINK', 'aml')">Android 13+</button>
+                </div>
+
+                <div class="apk-box">
+                    <span id="apk-title">الرجاء اختيار إصدار الأندرويد أعلاه</span>
+                    <a href="#" id="apk-download-btn" target="_blank" class="dl-link" style="display:none;">تحميل APK</a>
+                </div>
+
+                <p style="font-size:0.85rem; color:#ffeb3b; margin-bottom:8px;">2. اختر ملف الداتا (Data) حسب معالج جهازك:</p>
+
+                <div class="download-box">
+                    <span>Data معالج Adreno</span>
+                    <a href="YOUR_SA_ADRENO_LINK" target="_blank" class="dl-link">تحميل</a>
+                </div>
+                <div class="download-box">
+                    <span>Data معالج Mali</span>
+                    <a href="YOUR_SA_MALI_LINK" target="_blank" class="dl-link">تحميل</a>
+                </div>
+                <div class="download-box">
+                    <span>Data معالج PowerVR</span>
+                    <a href="YOUR_POWERVR_LINK" target="_blank" class="dl-link">تحميل</a>
+                </div>
+
+                <!-- تنبيه الملاحظة -->
+                <div class="note-box">
+                    ⚠️ <b>ملاحظة هامة للجميع:</b> نظرًا لأن هذه النسخة محسنة وخفيفة (LITE)، فقد تواجهك بعض الأخطاء البسيطة بناءً على نوع جهازك. إذا ظهرت لك أي مشكلة أو كراش، أبلغني بها فورًا في <b>التعليقات بالأسفل</b> وسيتم حلها!
+                </div>
+
+                <!-- طريقة التركيب المتغيرة -->
+                <div class="instructions-box">
+                    <h3>📌 طريقة التركيب والتشغيل:</h3>
+                    <div id="install-steps">
+                        <p style="color:#aaa; font-size:0.85rem;">اختر إصدار الأندرويد من الأعلى لعرض طريقة التركيب الخاصة به.</p>
+                    </div>
+                </div>
+
+                <!-- قسم التعليقات التفاعلي -->
+                <div class="comments-section">
+                    <h3>💬 تعليقات المتابعين والآراء:</h3>
+                    <input type="text" id="comment-name" class="comment-input" placeholder="اكتب اسمك هنا...">
+                    <textarea id="comment-text" class="comment-textarea" rows="3" placeholder="اكتب ملاحظتك أو مشكلتك في النسخة..."></textarea>
+                    <button class="comment-btn" onclick="addComment()">إرسال التعليق 📤</button>
+
+                    <div id="comments-list" class="comments-list">
+                        <!-- التعليقات تظهر هنا -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 2. لعبة GTA VC -->
+        <div class="game-card">
+            <h2>GTA VC BLADEGAMER</h2>
+            <p>نسخة لايت مخصصة ومحسنة للأجهزة الضعيفة.</p>
+            <div class="stats-bar" style="margin-top:10px;">
+                <span>⏳ قريباً جداً</span>
+                <span style="color:#ffeb3b;">❤️ مرتقب بشدة</span>
+            </div>
+            <button class="btn btn-coming" style="margin-top:10px;" onclick="alert('قريباً جداً سيتم إطلاق نسخة GTA VC!')">قريباً ⏳</button>
+        </div>
+
+        <!-- 3. لعبة GTA III -->
+        <div class="game-card">
+            <h2>GTA III BLADEGAMER</h2>
+            <p>نسخة لايت مخصصة ومحسنة للأجهزة الضعيفة.</p>
+            <div class="stats-bar" style="margin-top:10px;">
+                <span>⏳ قريباً جداً</span>
+                <span style="color:#ffeb3b;">❤️ مرتقب بشدة</span>
+            </div>
+            <button class="btn btn-coming" style="margin-top:10px;" onclick="alert('قريباً جداً سيتم إطلاق نسخة GTA III!')">قريباً ⏳</button>
+        </div>
+
+    </div>
+
+    <div class="footer-url">WWW.BLADEGAMER.ORG</div>
+
+    <script>
+        function toggleSADetails() {
+            var details = document.getElementById('sa-details');
+            details.style.display = (details.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function selectVersion(androidVer, apkType, apkLink, mode) {
+            var titleBox = document.getElementById('apk-title');
+            var downloadBtn = document.getElementById('apk-download-btn');
+            var stepsBox = document.getElementById('install-steps');
+
+            titleBox.innerHTML = "APK المناسب لـ " + androidVer + ": <br><small style='color:#fff'>" + apkType + "</small>";
+            downloadBtn.href = apkLink;
+            downloadBtn.style.display = 'inline-block';
+
+            var zArchiverLink = "<a href='https://play.google.com/store/apps/details?id=ru.zdevs.zarchiver' target='_blank' class='zarchiver-link'>تطبيق ZArchiver</a>";
+
+            if (mode === 'aml') {
+                stepsBox.innerHTML = `
+                    <ol>
+                        <li>حمل تطبيق ${zArchiverLink} لفك الضغط وإدارة الملفات.</li>
+                        <li>قم بتثبيت ملف الـ <b>APK 2.00 AML Unprotected</b> المخصص لأندرويد 13+ (لا تفتحه الآن).</li>
+                        <li>حمل ملف الـ <b>Data</b> المخصص لمعالج جهازك واستخرج الملفات.</li>
+                        <li>انقل مجلد <code>com.rockstargames.gtasa</code> المفتوح إلى مسار <code>Android / data</code> وتأكد من منح صلاحيات الوصول للـ AML.</li>
+                        <li>افتح اللعبة واستمتع بتجربة الـ Unprotected السريعة!</li>
+                    </ol>
+                `;
+            } else {
+                stepsBox.innerHTML = `
+                    <ol>
+                        <li>حمل تطبيق ${zArchiverLink} لفك الضغط وإدارة الملفات.</li>
+                        <li>قم بتثبيت ملف الـ <b>${apkType}</b> المخصص لجهازك (لا تفتحه الآن).</li>
+                        <li>حمل ملف الـ <b>Data</b> المخصص لمعالج جهازك واستخرج الملفات.</li>
+                        <li>انقل مجلد <code>com.rockstargames.gtasa</code> إلى مسار <code>Android / data</code>.</li>
+                        <li>افتح اللعبة واستمتع بتشغيل قائمة CLEO والسكربتات مجاناً!</li>
+                    </ol>
+                `;
+            }
+        }
+
+        // نظام الإعجابات الذكي (إعجاب وإزالة إعجاب)
+        function loadLikes() {
+            var savedLikes = localStorage.getItem('bladeGamerLikes');
+            var hasLiked = localStorage.getItem('hasLikedBlade');
+            var countSpan = document.getElementById('likes-count');
+            var likeBtn = document.getElementById('like-btn-element');
+
+            if (savedLikes !== null) {
+                countSpan.innerText = savedLikes;
+            } else {
+                countSpan.innerText = '0';
+            }
+
+            if (hasLiked === 'true') {
+                likeBtn.classList.add('liked');
+                likeBtn.innerHTML = '💚 إعجاب تم (<span id="likes-count">' + countSpan.innerText + '</span>)';
+            }
+        }
+
+        function toggleLike() {
+            var countSpan = document.getElementById('likes-count');
+            var likeBtn = document.getElementById('like-btn-element');
+            var currentLikes = parseInt(countSpan.innerText);
+            var hasLiked = localStorage.getItem('hasLikedBlade');
+
+            if (hasLiked === 'true') {
+                // إزالة الإعجاب
+                currentLikes--;
+                if (currentLikes < 0) currentLikes = 0;
+                countSpan.innerText = currentLikes;
+                localStorage.setItem('bladeGamerLikes', currentLikes);
+                localStorage.setItem('hasLikedBlade', 'false');
+                
+                likeBtn.classList.remove('liked');
+                likeBtn.innerHTML = '❤️ إعجاب (<span id="likes-count">' + currentLikes + '</span>)';
+            } else {
+                // إضافة الإعجاب
+                currentLikes++;
+                countSpan.innerText = currentLikes;
+                localStorage.setItem('bladeGamerLikes', currentLikes);
+                localStorage.setItem('hasLikedBlade', 'true');
+                
+                likeBtn.classList.add('liked');
+                likeBtn.innerHTML = '💚 إعجاب تم (<span id="likes-count">' + currentLikes + '</span>)';
+            }
+        }
+
+        function loadComments() {
+            var comments = JSON.parse(localStorage.getItem('bladeGamerComments')) || [];
+            var listContainer = document.getElementById('comments-list');
+            listContainer.innerHTML = '';
+
+            if(comments.length === 0) {
+                listContainer.innerHTML = '<p style="font-size:0.85rem; color:#aaa;">لا توجد تعليقات بعد. كن أول من يترك تعليقاً!</p>';
+                return;
+            }
+
+            comments.forEach(function(c) {
+                var item = document.createElement('div');
+                item.className = 'comment-item';
+                item.innerHTML = '<div class="comment-author">' + c.name + '</div><div class="comment-text">' + c.text + '</div>';
+                listContainer.appendChild(item);
+            });
+        }
+
+        function addComment() {
+            var name = document.getElementById('comment-name').value.trim();
+            var text = document.getElementById('comment-text').value.trim();
+
+            if (!name || !text) {
+                alert('يرجى كتابة الاسم والتعليق قبل الإرسال!');
+                return;
+            }
+
+            var comments = JSON.parse(localStorage.getItem('bladeGamerComments')) || [];
+            comments.unshift({ name: name, text: text });
+            localStorage.setItem('bladeGamerComments', JSON.stringify(comments));
+
+            document.getElementById('comment-name').value = '';
+            document.getElementById('comment-text').value = '';
+
+            loadComments();
+        }
+
+        window.onload = function() {
+            loadLikes();
+            loadComments();
+        };
+    </script>
+
+</body>
+</html>
